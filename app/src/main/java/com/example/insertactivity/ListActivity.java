@@ -2,6 +2,7 @@ package com.example.insertactivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,12 +12,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,7 +33,7 @@ public class ListActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabse;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildEventListener;
-
+    boolean misDark = false;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -68,48 +72,8 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_list);
-
-
-
-
-//        FirebaseUtil.openFbReffernce("traveldeals");
-//        mFirebaseDatabse = FirebaseUtil.mFirebaseDatabse;
-//        mDatabaseReference = FirebaseUtil.mDatabaseReference;
-//        mChildEventListener = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                TextView tvDeals = findViewById(R.id.list_view);
-//                TravelDeal td = dataSnapshot.getValue(TravelDeal.class); // we're serilizing it and putting it on the class Travel Deal
-//                deals.add(td);
-//                tvDeals.setText(tvDeals.getText() + "\n" + td.getTitle());
-//                for(TravelDeal d : deals)
-//                {
-//                    Log.d("check", d.toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        };
-//        mDatabaseReference.addChildEventListener(mChildEventListener);
 
     }
 
@@ -124,12 +88,41 @@ public class ListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         FirebaseUtil.openFbReffernce("users",this);
-        RecyclerView rvDeals = findViewById(R.id.rvDeals);
+        final RecyclerView rvDeals = findViewById(R.id.rvDeals);
         final DealsAdapter adapter = new DealsAdapter();
         rvDeals.setAdapter(adapter);
         LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvDeals.setLayoutManager(dealsLayoutManager);
         FirebaseUtil.attachListener();
+
+        //final RecyclerView rvDeals = findViewById(R.id.rvDeals);
+
+
+        FloatingActionButton fabSwitcher = findViewById(R.id.fab_switcher);
+        final boolean isDark = false;
+        final ConstraintLayout  rootLayout =findViewById(R.id.roo_layout);
+        fabSwitcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ListActivity.this,"work",Toast.LENGTH_SHORT).show();
+
+                if(isDark) {
+                    rootLayout.setBackgroundColor(getResources().getColor(R.color.balck));
+
+                }
+
+                else
+                {
+                    rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+                }
+                final DealsAdapter adapter = new DealsAdapter();
+                rvDeals.setAdapter(adapter);
+
+                LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+                rvDeals.setLayoutManager(dealsLayoutManager);
+                //FirebaseUtil.attachListener();
+            }
+        });
     }
 
 }

@@ -37,6 +37,9 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
     private ChildEventListener mChildEventListener;
     private FirebaseAuth mFirebaseAuth;
     private Context mContext;
+    boolean isDark = false;
+
+
 
     public DealsAdapter()
 
@@ -46,73 +49,6 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         mFirebaseAuth = FirebaseUtil.mFirebaseAuth;
         deals = FirebaseUtil.mDeals;
-      //  TravelDeal mTravelDeal = new TravelDeal();
-//        Query query = mDatabaseReference.child("users").orderByKey()
-//                .equalTo(mFirebaseAuth.getInstance().getCurrentUser().getUid());
-//
-//        Query query2 = FirebaseDatabase.getInstance().getReference().child("users").
-//                orderByKey().limitToFirst(6);
-//        query2.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren())
-//                {
-//                    Log.d("chekme","" + snapshot);
-//                    Log.d("chekme","" + snapshot.getValue());
-//
-//                    String name = (String)snapshot.child("title").getValue();
-//                    String description = (String)snapshot.child("des").getValue();
-//                    //TravelDeal travelDeal = snapshot.getValue(TravelDeal.class);
-//                    Log.d("checkme",name);
-//
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//            Log.d("test",query.toString());
-//            query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
-//                {
-//                    Log.d("chhhhh",singleSnapshot.getValue().toString());
-//                    TravelDeal Tdeal = singleSnapshot.getValue(TravelDeal.class);
-//                    deals.add(Tdeal);
-//
-//                    notifyItemInserted(deals.size() - 1);
-//
-//                }
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.d("noooooooooooooo","noooo");
-//                }
-//            });
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
-//                {
-//                    TravelDeal Tdeal = singleSnapshot.getValue(TravelDeal.class);
-//                    deals.add(Tdeal);
-//                    Log.d("test",Tdeal.toString());
-//                    notifyItemInserted(deals.size() - 1);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
         mChildEventListener = new ChildEventListener() {
             @Override
@@ -151,7 +87,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
             }
         };
 
-          mDatabaseReference.child(mFirebaseAuth.getCurrentUser().getUid()).addChildEventListener(mChildEventListener);
+         mDatabaseReference.child(mFirebaseAuth.getCurrentUser().getUid()).addChildEventListener(mChildEventListener);
 
     }
 
@@ -187,6 +123,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
         TextView tvTitle, tvprice, tvDesc;
         ImageView img;
         ConstraintLayout mConstraintLayout;
+
         public DealsViewHolder(@NonNull View itemView) {
             super(itemView);
             mConstraintLayout = itemView.findViewById(R.id.container);
@@ -196,7 +133,10 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
             img = itemView.findViewById(R.id.item_image);
             itemView.setOnClickListener(this);
 
-
+            if(isDark)
+            {
+                setDarkTheme();
+            }
 
         }
 
@@ -215,6 +155,11 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
             Intent intent = new Intent(view.getContext(),DealActivity.class);
             intent.putExtra("Deal",selectedDeal);
             view.getContext().startActivity(intent);
+        }
+
+        private void setDarkTheme()
+        {
+            mConstraintLayout.setBackgroundResource(R.drawable.car_bg_dark);
         }
     }
 
