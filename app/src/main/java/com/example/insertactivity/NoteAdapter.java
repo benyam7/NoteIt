@@ -1,6 +1,5 @@
 package com.example.insertactivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,61 +7,62 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHolder>
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.DealsViewHolder> implements Filterable
 {
-    ArrayList<TravelDeal> deals;
+    List<Note> mNotes;
     private FirebaseDatabase mFirebaseDatabse;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildEventListener;
     private FirebaseAuth mFirebaseAuth;
     private Context mContext;
     boolean isDark = false;
+    List<Note> mFilteredNotes;
 
 
 
-    public DealsAdapter()
+
+    public NoteAdapter()
 
     {
         //FirebaseUtil.openFbReffernce("traveldeals",// STOPSHIP: 6/18/19  );
         mFirebaseDatabse = FirebaseUtil.mFirebaseDatabse;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         mFirebaseAuth = FirebaseUtil.mFirebaseAuth;
-        deals = FirebaseUtil.mDeals;
-
+        mNotes = FirebaseUtil.sNotes;
+        this.mFilteredNotes = mNotes;
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
 
 
-                TravelDeal td = dataSnapshot.getValue(TravelDeal.class); // we're serilizing it and putting it on the class Travel Deal
+                Note td = dataSnapshot.getValue(Note.class); // we're serilizing it and putting it on the class Travel Deal
 
                 Log.d("deal", td.getTitle());
                 td.setId(dataSnapshot.getKey());
-                deals.add(td);
+                mNotes.add(td);
                 // i think it notifying at the same time adding it at the back
-                notifyItemInserted(deals.size()-1);
+                notifyItemInserted(mNotes.size()-1);
             }
 
             @Override
@@ -102,7 +102,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull DealsViewHolder holder, int position) {
-        TravelDeal deal = deals.get(position);
+        Note deal = mFilteredNotes.get(position);
 
         //binding it to the holder
         holder.mConstraintLayout.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.anim_2));
@@ -113,24 +113,60 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
 
     @Override
     public int getItemCount() {
-        return deals.size();
+        return mFilteredNotes.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String key = charSequence.toString();
+                if(key.isEmpty())
+                {
+                    mFilteredNotes = mNotes;
+                }
+                else
+                {
+                    List<Note> listFiltered = new ArrayList<>();
+                    for (Note note : mNotes)
+                    {
+                        if(note.getTitle().toLowerCase().contains(key.toLowerCase()))
+                        {
+                            listFiltered.add(note);
+                        }
+                    }
+                    mFilteredNotes = listFiltered;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilteredNotes;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mFilteredNotes = (List<Note>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     public class DealsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         // we will use this class to describe how to bind the data
         // to a single row(item)
-        TextView tvTitle, tvprice, tvDesc;
+        TextView tvTitle, tvDate, tvDesc;
         ImageView img;
         ConstraintLayout mConstraintLayout;
 
         public DealsViewHolder(@NonNull View itemView) {
             super(itemView);
             mConstraintLayout = itemView.findViewById(R.id.container);
-            tvTitle = itemView.findViewById(R.id.item_title);
-            tvprice = itemView.findViewById(R.id.item_price);
-            tvDesc = itemView.findViewById(R.id.item_description);
-            img = itemView.findViewById(R.id.item_image);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvDesc = itemView.findViewById(R.id.tv_date);
+            tvDesc = itemView.findViewById(R.id.tv_description);
+
             itemView.setOnClickListener(this);
 
             if(isDark)
@@ -140,19 +176,20 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.DealsViewHol
 
         }
 
-        public void bind(TravelDeal deal)
+        public void bind(Note note)
         {
-            tvTitle.setText(deal.getTitle());
-            tvDesc.setText(deal.getDescription());
-            tvprice.setText(deal.getPrice());
+
+            tvTitle.setText(note.getTitle());
+          //  tvDesc.setText(deal.getDescription());
+//            tvDate.setText(deal.getDate());
         }
 
         @Override
         public void onClick(View view) {
           int position =getAdapterPosition();
           //Toast.makeText(view.getContext(),"working", Toast.LENGTH_SHORT).show();
-          TravelDeal selectedDeal = deals.get(position);
-            Intent intent = new Intent(view.getContext(),DealActivity.class);
+          Note selectedDeal = mNotes.get(position);
+            Intent intent = new Intent(view.getContext(), NoteActivity.class);
             intent.putExtra("Deal",selectedDeal);
             view.getContext().startActivity(intent);
         }

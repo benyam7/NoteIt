@@ -3,7 +3,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_insert">InsertActivity</string>
     <string name="deal_title">deal title</string>
-    <string name="price">price</string>
+    <string name="date">date</string>
     <string name="description">description</string>
     <string name="title_activity_helo">helo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

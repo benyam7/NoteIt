@@ -17,41 +17,40 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="@string/deal_title"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/et_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/et_price"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/price"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="@+id/et_deal_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_deal_title"
-        app:layout_constraintTop_toBottomOf="@+id/et_deal_title" />
+        android:gravity="top"
 
-    <EditText
-        android:id="@+id/et_desc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/description"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/et_price"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_price"
-        app:layout_constraintTop_toBottomOf="@+id/et_price" />
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_deal_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_desc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cursorVisible="true"
+            android:gravity="top"
+            android:hint="Type your note here"
+            android:inputType="textMultiLine"
+            android:verticalScrollbarPosition="defaultPosition" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

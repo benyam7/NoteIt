@@ -2,20 +2,20 @@ package com.example.insertactivity;
 
 import java.io.Serializable;
 
-public class TravelDeal implements Serializable
+public class Note implements Serializable
 {
     String id;
     String description;
     String title;
-    String price;
+    String date;
     String imageUrl;
 
-    public TravelDeal(){}
-    public TravelDeal(String description, String title, String price/* String imageUrl*/) {
+    public Note(){}
+    public Note(String description, String title, String date/* String imageUrl*/) {
         this.id = id;
         this.description = description;
         this.title = title;
-        this.price = price;
+        this.date = date;
         this.imageUrl = imageUrl;
     }
 
@@ -43,12 +43,12 @@ public class TravelDeal implements Serializable
         this.title = title;
     }
 
-    public String getPrice() {
-        return price;
+    public String getDate() {
+        return date;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getImageUrl() {

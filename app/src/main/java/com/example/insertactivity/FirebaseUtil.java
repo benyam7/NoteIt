@@ -1,20 +1,15 @@
 package com.example.insertactivity;
 
 import android.app.Activity;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +21,7 @@ public class FirebaseUtil
     private static FirebaseUtil firebaseutill;
     public static FirebaseAuth mFirebaseAuth;
     public static FirebaseAuth.AuthStateListener mAuthListener;
-    public static ArrayList<TravelDeal> mDeals;
+    public static ArrayList<Note> sNotes;
     private static Activity caller;
     private static final int RC_SIGN_IN = 123;
     private FirebaseUtil(){}
@@ -53,7 +48,7 @@ public class FirebaseUtil
             };
 
         }
-        mDeals = new ArrayList<>();
+        sNotes = new ArrayList<>();
     //    mDatabaseReference = mFirebaseDatabse.getReference().child(ref);
         mDatabaseReference = mFirebaseDatabse.getReference().child("users");
 ;

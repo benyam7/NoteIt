@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
-    ArrayList<TravelDeal> deals;
+    ArrayList<Note> deals;
     private FirebaseDatabase mFirebaseDatabse;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildEventListener;
@@ -46,7 +46,7 @@ public class ListActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case  R.id.action_insert:
-                startActivity(new Intent(this, DealActivity.class));
+                startActivity(new Intent(this, NoteActivity.class));
                 return true;
             case R.id.action_logout:
                 AuthUI.getInstance()
@@ -89,7 +89,7 @@ public class ListActivity extends AppCompatActivity {
         super.onResume();
         FirebaseUtil.openFbReffernce("users",this);
         final RecyclerView rvDeals = findViewById(R.id.rvDeals);
-        final DealsAdapter adapter = new DealsAdapter();
+        final NoteAdapter adapter = new NoteAdapter();
         rvDeals.setAdapter(adapter);
         LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvDeals.setLayoutManager(dealsLayoutManager);
@@ -98,31 +98,31 @@ public class ListActivity extends AppCompatActivity {
         //final RecyclerView rvDeals = findViewById(R.id.rvDeals);
 
 
-        FloatingActionButton fabSwitcher = findViewById(R.id.fab_switcher);
-        final boolean isDark = false;
-        final ConstraintLayout  rootLayout =findViewById(R.id.roo_layout);
-        fabSwitcher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ListActivity.this,"work",Toast.LENGTH_SHORT).show();
-
-                if(isDark) {
-                    rootLayout.setBackgroundColor(getResources().getColor(R.color.balck));
-
-                }
-
-                else
-                {
-                    rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
-                }
-                final DealsAdapter adapter = new DealsAdapter();
-                rvDeals.setAdapter(adapter);
-
-                LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
-                rvDeals.setLayoutManager(dealsLayoutManager);
-                //FirebaseUtil.attachListener();
-            }
-        });
+//        FloatingActionButton fabSwitcher = findViewById(R.id.fab_switcher);
+//        final boolean isDark = false;
+//        final ConstraintLayout  rootLayout =findViewById(R.id.roo_layout);
+//        fabSwitcher.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(ListActivity.this,"work",Toast.LENGTH_SHORT).show();
+//
+//                if(isDark) {
+//                    rootLayout.setBackgroundColor(getResources().getColor(R.color.balck));
+//
+//                }
+//
+//                else
+//                {
+//                    rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+//                }
+//                final NoteAdapter adapter = new NoteAdapter();
+//                rvDeals.setAdapter(adapter);
+//
+//                LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+//                rvDeals.setLayoutManager(dealsLayoutManager);
+//                //FirebaseUtil.attachListener();
+//            }
+//        });
     }
 
 }

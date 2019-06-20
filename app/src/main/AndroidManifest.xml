@@ -18,15 +18,17 @@
         <activity
             android:name=".ListActWithNavDraw"
             android:label="@string/title_activity_list_act_with_nav_draw"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ListActivity">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DealActivity"></activity>
+        <activity android:name=".ListActivity">
+
+        </activity>
+        <activity android:name=".NoteActivity"></activity>
     </application>
 
 </manifest>

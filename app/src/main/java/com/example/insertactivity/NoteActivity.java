@@ -3,7 +3,6 @@ package com.example.insertactivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,9 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
-
-public class DealActivity extends AppCompatActivity {
+public class NoteActivity extends AppCompatActivity {
 
     EditText mDealsTitleEt;
     EditText mpriceEt;
@@ -26,7 +23,7 @@ public class DealActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabse;
 
     private DatabaseReference mDatabaseReference;
-    TravelDeal deal;
+    Note deal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,19 +36,19 @@ public class DealActivity extends AppCompatActivity {
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
 
         mDealsTitleEt = findViewById(R.id.et_deal_title);
-        mpriceEt = findViewById(R.id.et_price);
+        //mpriceEt = findViewById(R.id.et_price);
         mDescriptionEt = findViewById(R.id.et_desc);
         Intent intent = getIntent();
-        TravelDeal deal = (TravelDeal) intent.getSerializableExtra("Deal");
+        Note deal = (Note) intent.getSerializableExtra("Deal");
         if(deal == null)
         {
-            deal = new TravelDeal();
+            deal = new Note();
         }
 
         this.deal  = deal;
         mDealsTitleEt.setText(deal.getTitle());
         mDescriptionEt.setText(deal.getDescription());
-        mpriceEt.setText(deal.getPrice());
+//        mpriceEt.setText(deal.getDate());
 
     }
 
@@ -84,7 +81,7 @@ public class DealActivity extends AppCompatActivity {
     private void clear() {
         mDealsTitleEt.setText("");
         mDescriptionEt.setText("");
-        mpriceEt.setText("");
+//        mpriceEt.setText("");
         mDescriptionEt.requestFocus();
 
     }
@@ -93,7 +90,7 @@ public class DealActivity extends AppCompatActivity {
     {
         deal.setTitle( mDealsTitleEt.getText().toString());
         deal.setDescription( mDescriptionEt.getText().toString());
-        deal.setPrice(mpriceEt.getText().toString());
+//        deal.setDate(mpriceEt.getText().toString());
 
         if(deal.getId() == null)
         {
@@ -135,7 +132,7 @@ public class DealActivity extends AppCompatActivity {
 
     private void backToList()
     {
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, ListActWithNavDraw.class);
 //        Toast.makeText(this,"Saving...", Toast.LENGTH_LONG).show();
         startActivity(intent);
 
